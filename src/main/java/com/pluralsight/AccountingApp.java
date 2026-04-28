@@ -43,6 +43,7 @@ public class AccountingApp {
     }
 
     //Here are all the methods for the program
+
     private static void showLedgerScreen(Scanner scanner) {
 
         while (true) {
@@ -68,7 +69,7 @@ public class AccountingApp {
                     displayTransactions("PAYMENTS");
                     break;
                 case "R":
-                    //show reports screen
+                    showReportScreen(scanner);
                     break;
                 case "H":
                     return;
@@ -76,6 +77,51 @@ public class AccountingApp {
                     System.err.println("Invalid choice");
             }
         }
+    }
+
+    private static void showReportScreen(Scanner scanner) {
+
+        while (true) {
+            System.out.println("""
+                    Reports
+                    1) Month To Date
+                    2) Previous Month
+                    3) Year to Date
+                    4) Previous Year
+                    5) Search by Vendor
+                    0) Back
+                    """);
+
+            String choice = scanner.nextLine().trim();
+
+            switch (choice) {
+                case "1":
+                    displayReport("MONTH_TO_DATE", "");
+                    break;
+                case "2":
+                    displayReport("MONTH_TO_DATE", "");
+                    break;
+                case "3":
+                    displayReport("MONTH_TO_DATE", "");
+                    break;
+                case "4":
+                    displayReport("MONTH_TO_DATE", "");
+                    break;
+                case "5":
+                    String vendor = requiredInput(scanner, "Vendor name: ");
+                    displayReport("VENDOR", vendor);
+                    break;
+                case "0":
+                    return;
+                default:
+                    System.err.println("Invalid choice");
+
+            }
+        }
+    }
+
+    private static void displayReport(String reportType, String vendorSearch) {
+
     }
 
     private static void displayTransactions(String filter) {
@@ -196,6 +242,7 @@ public class AccountingApp {
 
     }
 
+    // requiredInput is a method for defensing coding and avoid empty spaces
     private static String requiredInput(Scanner scanner, String prompt) {
         while (true) {
             System.out.println(prompt);
