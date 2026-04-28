@@ -1,9 +1,6 @@
 package com.pluralsight;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Scanner;
@@ -12,14 +9,15 @@ public class AccountingApp {
 
     public static void main(String[] args) {
 
-        createFileHeader();
+        createFileHeader();// Created a File Header to organize transactions
         Scanner scanner = new Scanner(System.in);
         while (true) {
-            System.out.println("Home Screen");
-            System.out.println("D) Add Deposit");
-            System.out.println("P) Make a payment");
-            System.out.println("L) Ledger ");
-            System.out.println("X) Exit");
+            System.out.println("""
+                    Home Screen
+                    D) Add Deposit
+                    P) Make a payment
+                    L) Ledger
+                    X) Exit""");
 
             String choice = scanner.nextLine().trim().toUpperCase();
 
@@ -43,8 +41,65 @@ public class AccountingApp {
 
         }
     }
-
+        //Here are all the methods for the program
     private static void showLedgerScreen(Scanner scanner) {
+
+        while(true){
+            System.out.println("""
+                    Ledger
+                    A) All
+                    D) Deposits
+                    P) Payments
+                    R) Reports
+                    H) Home
+                    """);
+
+            String choice = scanner.nextLine().trim().toUpperCase();
+
+            switch (choice){
+                case "A":
+                    displayTransactions("ALL");
+                    break;
+                case "D":
+                    displayTransactions("DEPOSITS");
+                    break;
+                case"P":
+                    displayTransactions("PAYMENTS");
+                    break;
+                case"R":
+                    //show reports screen
+                    break;
+                case"H":
+                    return;
+                default:
+                    System.err.println("Invalid choice");
+            }
+        }
+    }
+
+    private static void displayTransactions(String deposits) {
+        try{
+            BufferedReader reader = new BufferedReader(new FileReader("src/main/resources/transactions.csv"));
+
+            String line;
+
+            while((line = reader.readLine())! = null){
+
+                //Have to skip the header
+                if(line.startsWith("date|time|description|vendor|amount")){
+                    continue;
+                }
+
+                String[] parts = line.split("\\|");
+
+                String date = parts[0];
+                String time = parts[1];
+                String Description = parts[2];
+                String vendor = parts[3];
+                double amount = Double.parseDouble(parts[4]);
+            }
+
+            }
     }
 
     private static void addTransaction(Scanner scanner, boolean isDeposit) {
@@ -114,11 +169,11 @@ public class AccountingApp {
         }
     }
 
-    private static void createFileHeader(){
-        try{
+    private static void createFileHeader() {
+        try {
             File file = new File("src/main/resources/transactions.csv");
 
-            if(!file.exists() || file.length() == 0){
+            if (!file.exists() || file.length() == 0) {
 
                 BufferedWriter writer = new BufferedWriter(new FileWriter(file));
 
@@ -131,7 +186,7 @@ public class AccountingApp {
         }
 
     }
-    }
+}
 
 
 
