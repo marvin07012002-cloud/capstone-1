@@ -152,25 +152,28 @@ public class AccountingApp {
         LocalDate date;
         LocalTime time;
         while (true) {
-            System.out.println("Enter date (yyyy-MM-dd) or press Enter for today: ");
-            String input = scanner.nextLine().trim();
-            System.out.println("Enter time (HH:mm:ss) or press enter for current time");
-            String timeInput = scanner.nextLine().trim();
+            try {
+                System.out.println("Enter date (yyyy-MM-dd) or press Enter for today: ");
+                String input = scanner.nextLine().trim();
+                System.out.println("Enter time (HH:mm:ss) or press enter for current time");
+                String timeInput = scanner.nextLine().trim();
 
-            if (timeInput.isEmpty()) {
-                time = LocalTime.now();
-            } else {
-                time = LocalTime.parse(timeInput);
+                if (timeInput.isEmpty()) {
+                    time = LocalTime.now().withNano(0);
+                } else {
+                    time = LocalTime.parse(timeInput);
+                }
+
+                if (input.isEmpty()) {
+                    date = LocalDate.now();
+                } else {
+                    date = LocalDate.parse(input);
+                }
+                break;
+
+            } catch (Exception e) {
+                System.err.println("Invalid date or time. Use yyyy-MM-dd and HH:mm:ss.");
             }
-
-            if (input.isEmpty()) {
-                date = LocalDate.now();
-            } else {
-                date = LocalDate.parse(input);
-            }
-
-
-
         }
 
         Transaction transaction = new Transaction(date, time, description, vendor, amount);
