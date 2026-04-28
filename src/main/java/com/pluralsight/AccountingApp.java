@@ -77,16 +77,16 @@ public class AccountingApp {
         }
     }
 
-    private static void displayTransactions(String deposits) {
+    private static void displayTransactions(String filter) {
         try{
             BufferedReader reader = new BufferedReader(new FileReader("src/main/resources/transactions.csv"));
 
             String line;
 
-            while((line = reader.readLine())! = null){
+            while((line = reader.readLine())!= null){
 
                 //Have to skip the header
-                if(line.startsWith("date|time|description|vendor|amount")){
+                if (line.startsWith("date|time|description|vendor|amount")) {
                     continue;
                 }
 
@@ -94,12 +94,26 @@ public class AccountingApp {
 
                 String date = parts[0];
                 String time = parts[1];
-                String Description = parts[2];
+                String description = parts[2];
                 String vendor = parts[3];
                 double amount = Double.parseDouble(parts[4]);
-            }
+
+                if (filter.equals("DEPOSITS") && amount < 0) {
+                    continue;
+                }
+                if (filter.equals("PAYMENTS") && amount > 0) {
+                    continue;
+                }
+                System.out.printf("%s | %s | %s | %s | %.2f%n", date, time, description, vendor, amount);
+
 
             }
+            reader.close();
+
+
+            }catch (IOException e){
+            System.err.println("Could not read transaction file");
+        }
     }
 
     private static void addTransaction(Scanner scanner, boolean isDeposit) {
