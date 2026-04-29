@@ -122,9 +122,17 @@ public class AccountingApp {
     private static void displayPreviousMonth() {
         ArrayList<Transaction> transactionList = loadTransactions();
         LocalDate today = LocalDate.now();
-        int currentMonth = today.getMonthValue() - 1;
+        int previusMonth = today.getMonthValue() - 1;
 
-        for (Transaction currentTransaction: transactionList){
+        for (Transaction currentTransaction : transactionList) {
+            LocalDate transactionMonth = currentTransaction.getDate();
+            int currentMonth = transactionMonth.getMonthValue() - 1;
+
+            if (currentMonth == previusMonth) {
+                System.out.println(currentTransaction.getDate() + " " + currentTransaction.getTime() + " " +currentTransaction.getDescription());
+
+            }
+
 
         }
     }
@@ -135,13 +143,13 @@ public class AccountingApp {
         int currentYear = today.getYear();
         int currentMonth = today.getMonthValue();
 
-        for (Transaction currentTransaction: transactionList) {
+        for (Transaction currentTransaction : transactionList) {
 
             LocalDate transactionDate = currentTransaction.getDate();
             int transactionYear = transactionDate.getYear();
             int transactionMonth = transactionDate.getMonthValue();
 
-            if(transactionYear == currentYear && transactionMonth == currentMonth) {
+            if (transactionYear == currentYear && transactionMonth == currentMonth) {
                 System.out.println(currentTransaction.getDate() + " " + currentTransaction.getTime() + " " + currentTransaction.getDescription());
             }
         }
@@ -153,11 +161,11 @@ public class AccountingApp {
         LocalDate today = LocalDate.now();
         int currentYear = today.getYear();
 
-        for (Transaction currentTransaction: transactionList) {
+        for (Transaction currentTransaction : transactionList) {
             LocalDate transactionDate = currentTransaction.getDate();
             int transactionYear = transactionDate.getYear();
 
-            if(transactionYear == currentYear) {
+            if (transactionYear == currentYear) {
                 System.out.println(currentTransaction.getDate() + " " + currentTransaction.getTime() + " " + currentTransaction.getDescription());
             }
         }
@@ -169,11 +177,11 @@ public class AccountingApp {
         LocalDate today = LocalDate.now();
         int currentYear = today.getYear() - 1;
 
-        for (Transaction currentTransaction: transactionList) {
+        for (Transaction currentTransaction : transactionList) {
             LocalDate transactionDate = currentTransaction.getDate();
             int transactionYear = transactionDate.getYear();
 
-            if(transactionYear == currentYear) {
+            if (transactionYear == currentYear) {
                 System.out.println(currentTransaction.getDate() + " " + currentTransaction.getTime() + " " + currentTransaction.getDescription());
             }
         }
@@ -262,7 +270,7 @@ public class AccountingApp {
 
     private static void displayTransactions(String filter) {
         ArrayList<Transaction> transactionList = loadTransactions();
-        for (Transaction currentTransaction: transactionList) {
+        for (Transaction currentTransaction : transactionList) {
             System.out.println(currentTransaction.csvString());
         }
     }
