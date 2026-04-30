@@ -14,11 +14,19 @@ public class AccountingApp {
         Scanner scanner = new Scanner(System.in);
         while (true) {
             System.out.println("""
-                    Home Screen
-                    D) Add Deposit
-                    P) Make a payment
-                    L) Ledger
-                    X) Exit""");
+                    =========================================================================
+                        __  __                        _____                        \s
+                       / / / /___  ____ ___  ___     / ___/_____________  ___  ____\s
+                      / /_/ / __ \\/ __ `__ \\/ _ \\    \\__ \\/ ___/ ___/ _ \\/ _ \\/ __ \\
+                     / __  / /_/ / / / / / /  __/   ___/ / /__/ /  /  __/  __/ / / /
+                    /_/ /_/\\____/_/ /_/ /_/\\___/   /____/\\___/_/   \\___/\\___/_/ /_/\s
+                    
+                    =========================================================================
+                                                D) Add Deposit
+                                                P) Make a payment
+                                                L) Ledger
+                                                X) Exit
+                    """);
 
             String choice = scanner.nextLine().trim().toUpperCase();
 
@@ -49,25 +57,33 @@ public class AccountingApp {
 
         while (true) {
             System.out.println("""
-                    Ledger
-                    A) All
-                    D) Deposits
-                    P) Payments
-                    R) Reports
-                    H) Home
+                    =========================================================================
+                            __    __________  ________________\s
+                           / /   / ____/ __ \\/ ____/ ____/ __ \\
+                          / /   / __/ / / / / / __/ __/ / /_/ /
+                         / /___/ /___/ /_/ / /_/ / /___/ _, _/\s
+                        /_____/_____/_____/\\____/_____/_/ |_| \s
+                    
+                    =========================================================================
+                    
+                                                A) All
+                                                D) Deposits
+                                                P) Payments
+                                                R) Reports
+                                                H) Home
                     """);
 
             String choice = scanner.nextLine().trim().toUpperCase();
 
             switch (choice) {
                 case "A":
-                    displayTransactions("ALL");
+                    displayAllTransactions();
                     break;
                 case "D":
-                    displayTransactions("DEPOSITS");
+                    displayDepositTransactions();
                     break;
                 case "P":
-                    displayTransactions("PAYMENTS");
+                    displayPaymentTransactions();
                     break;
                 case "R":
                     showReportScreen(scanner);
@@ -84,13 +100,20 @@ public class AccountingApp {
 
         while (true) {
             System.out.println("""
-                    Reports
-                    1) Month To Date
-                    2) Previous Month
-                    3) Year to Date
-                    4) Previous Year
-                    5) Search by Vendor
-                    0) Back
+                    =========================================================================
+                                ____  __________  ____  ____  ___________
+                               / __ \\/ ____/ __ \\/ __ \\/ __ \\/_  __/ ___/
+                              / /_/ / __/ / /_/ / / / / /_/ / / /  \\__ \\\s
+                             / _, _/ /___/ ____/ /_/ / _, _/ / /  ___/ /\s
+                            /_/ |_/_____/_/    \\____/_/ |_| /_/  /____/ \s
+                    
+                    =========================================================================
+                                                1) Month To Date
+                                                2) Previous Month
+                                                3) Year to Date
+                                                4) Previous Year
+                                                5) Search by Vendor
+                                                0) Back
                     """);
 
             String choice = scanner.nextLine().trim();
@@ -268,12 +291,32 @@ public class AccountingApp {
 
     }
 
-    private static void displayTransactions(String filter) {
+    private static void displayAllTransactions() {
         ArrayList<Transaction> transactionList = loadTransactions();
         for (Transaction currentTransaction : transactionList) {
             System.out.println(currentTransaction.csvString());
         }
     }
+
+    private static void displayDepositTransactions() {
+        ArrayList<Transaction> transactionList = loadTransactions();
+        for (Transaction currentTransaction : transactionList) {
+            if (currentTransaction.getAmount() > 0) {
+                System.out.println(currentTransaction.csvString());
+            }
+        }
+    }
+
+    private static void displayPaymentTransactions() {
+        ArrayList<Transaction> transactionList = loadTransactions();
+        for (Transaction currentTransaction : transactionList) {
+            if (currentTransaction.getAmount() < 0){
+                System.out.println(currentTransaction.csvString());
+            }
+
+        }
+    }
+
 
     private static void addTransaction(Scanner scanner, boolean isDeposit) {
 
